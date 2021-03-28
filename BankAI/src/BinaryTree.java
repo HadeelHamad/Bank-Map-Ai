@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class BinaryTree {
 
     // Root of Binary Tree
@@ -29,6 +31,13 @@ public class BinaryTree {
 
     // Driver method
     public static void main(String[] args) {
+
+        Scanner s = new Scanner(System.in);
+        System.out.println("please enter the file name ");
+        String fileName = s.nextLine();
+        System.out.println(fileName);
+        String[] grid = FileReader.readFile(fileName);
+
         BinaryTree tree = new BinaryTree();
         tree.root = new Node(1);
         tree.root.left = new Node(2);
