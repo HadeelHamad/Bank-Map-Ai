@@ -1,9 +1,10 @@
 public class Node {
-    int key;
-    Node left, right;
+    char value;
+    Node left, right, parent;
 
-    public Node(int item) {
-        key = item;
+    public Node(char val) {
+        value = val;
         left = right = null;
     }
+    
 }

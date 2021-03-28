@@ -310,7 +310,6 @@ public class App {
         Scanner s = new Scanner(System.in);
         System.out.println("please enter the file name ");
         String fileName = s.nextLine();
-        System.out.println(fileName);
         char[][] grid = FileReader.readFile(fileName);
         traverseDiagonally(grid);
         printMatrix(grid);
