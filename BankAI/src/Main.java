@@ -18,6 +18,7 @@ public class Main {
             System.out.println("Preorder traversal of binary tree is ");
             goal.printPreorder();
             goal.printOutput();
+            TreeVisualizer.printNode(goal.originalroot);
         } else {
             System.out.println("No goal!!!");
 
