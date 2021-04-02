@@ -1,23 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BinaryTree {
 
     // Root of Binary Tree
     Node originalroot;
-    int cameraCount = 0;
-    List<Node> viewsAndZerosRefrences;
-
+    List<Integer> viewsAndZerosRefrences;
+    int idCounter=0;
     BinaryTree() {
-        System.out.println("inside BinaryTree() ");
         originalroot = null;
-        viewsAndZerosRefrences = new ArrayList<Node>();
+        viewsAndZerosRefrences = new ArrayList<Integer>();
     }
 
     BinaryTree(String[] floorArray) {
-        System.out.println("inside BinaryTree( array ) ");
         originalroot = fromArrayToBinaryTree(floorArray, null, 0);
-        viewsAndZerosRefrences = new ArrayList<Node>();
+        viewsAndZerosRefrences = new ArrayList<Integer>();
+        
     }
 
     /* Given a binary tree, print its nodes in Preorder */
@@ -43,7 +42,7 @@ public class BinaryTree {
     public Node fromArrayToBinaryTree(String[] arr, Node root, int i) {
         // Base case for recursion
         if (i < arr.length && !arr[i].equals("null")) {
-            Node temp = new Node(arr[i].charAt(0));
+            Node temp = new Node(arr[i].charAt(0),idCounter++);
             root = temp;
             root.parent = FindParent(originalroot, root);
 
@@ -71,31 +70,28 @@ public class BinaryTree {
     // if (node.parent!=null && node.parent.value != 'C')
     // node.parent.value = 'V';
     // }
-    public void assignPossibleCamera(Node refrence) {
-        System.out.println("inside assignPossibleCamera()");
+    public List<Integer> assignPossibleCamera(Node refrence, List<Integer> list) {
         if (refrence == null)
-            return;
-        if (viewsAndZerosRefrences.contains(refrence)) {
-            refrence.value = 'C';
-            viewsAndZerosRefrences.remove(refrence);
-            System.out.println("///////////////////////////");
-
+            return null;
+            List<Integer> l = assignPossibleCamera(refrence.right,list);
+            if(l!=null)
+            return l;
+             l = assignPossibleCamera(refrence.left,list);
+            if(l!=null)
+            return l;          
+        if (list.contains(refrence.id)) {
+            refrence.value = 'C';            
+            list.remove(Integer.valueOf(refrence.id));
             if (refrence.left != null && refrence.left.value != 'C')
                 refrence.left.value = 'V';
             if (refrence.right != null && refrence.right.value != 'C')
                 refrence.right.value = 'V';
             if (refrence.parent != null && refrence.parent.value != 'C')
                 refrence.parent.value = 'V';
-            System.out.println("inside assignPossibleCamera() after removing  the refrence from the list");
-
-        } else {
-            assignPossibleCamera(refrence.left);
-            assignPossibleCamera(refrence.right);
-            System.out.println("inside assignPossibleCamera() to search the refrence in left and right************");
-
-        }
+   return list;
     }
-
+    return null;
+    }
     public int countPossibleChildren(Node node) {
         int possibleChildrenCounter = 0;
         if (node.value == '0' || node.value == 'V')
@@ -107,30 +103,35 @@ public class BinaryTree {
         return possibleChildrenCounter;
 
     }
-
+    private int countCameras(Node node) {
+        int num = 0;
+        if (node.value == 'C')
+        num++;
+        if (node.left != null)
+        num += countCameras(node.left);
+        if (node.right != null)
+        num += countCameras(node.right);
+        return num;
+    }
+    
     public boolean isGoal(Node node) {
-        System.out.println("inside isGoal() ");
-
         if (node == null) {
-            System.out.println("if isGoal() true ");
             return true;
         }
         if (node.value == '0') {
-            System.out.println("inside isGoal() , if node value = 0 ");
             return false;
         }
         return isGoal(node.left) && isGoal(node.right);
     }
-
-    public List<Node> findViewsAndZeroes(Node node) {
+  
+    public void findViewsAndZeroes(Node node) {
         if (node == null)
-            return null;
+            return ;
         if (node.value == '0' || node.value == 'V')
-            viewsAndZerosRefrences.add(node);
+            viewsAndZerosRefrences.add(node.id);
         findViewsAndZeroes(node.left);
 
         findViewsAndZeroes(node.right);
-        return viewsAndZerosRefrences;
     }
 
     public Node FindParent(Node root, Node child) {
@@ -150,7 +151,7 @@ public class BinaryTree {
 
     public void printOutput() {
         System.out.println("\nThe solution found by the search DFS strategy \nMinimum number of cameras required is "
-                + cameraCount);
+                + countCameras(originalroot));
     }
 
 }

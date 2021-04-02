@@ -1,5 +1,8 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import javax.xml.stream.events.StartElement;
 
 public class DFSwithStack {
     Stack<BinaryTree> frontierStack;
@@ -16,18 +19,19 @@ public class DFSwithStack {
 
             BinaryTree state = frontierStack.pop();
 
-            if (state.isGoal(state.originalroot))
+            if (state.isGoal(state.originalroot)){
+            System.out.println("4444444444444444444444444444 WE REACH THE GOAL");
                 return state;
-
+            }
             // expand
+            System.out.println("We Did NOT REACH THE GOAL!!!!!!!!!!!!!!!!!");
             int numOfChildren = state.countPossibleChildren(state.originalroot);
             System.out.println("return of countPossibleChildren() is " + numOfChildren);
-            // List<Node> refrencesList = state.findViewsAndZeroes(state.originalroot);//
             // prepare list
-            System.out.println("return of findViewsAndZeroes() is " + refrencesList.size());
-
+            state.findViewsAndZeroes(state.originalroot);// prepare list
+            List<Integer> list = state.viewsAndZerosRefrences;// prepare list
             for (int i = 0; i < numOfChildren; i++) {
-                expand(state, refrencesList);
+               list= expand(state,list);
             }
 
         }
@@ -35,37 +39,35 @@ public class DFSwithStack {
         return null;
     }
 
-    public void expand(BinaryTree state, List<Node> refrencesList) {
+    public List<Integer> expand(BinaryTree state,List<Integer> list) {
 
         System.out.println("inside expand method");
 
         BinaryTree newState = copyTree(state.originalroot);
         // recursive
-        // newState.findViewsAndZeroes(newState.originalroot);// prepare list
         // search by reference
-        List<Node> refrencesList = state.findViewsAndZeroes(state.originalroot);// prepare list
-
-        newState.viewsAndZerosRefrences = refrencesList;
-        newState.assignPossibleCamera(newState.originalroot);
-        refrencesList = newState.viewsAndZerosRefrences;
+        System.out.println("==================================================The size of list is"+list.size());
+        //newState.viewsAndZerosRefrences= list;
+        list = newState.assignPossibleCamera(newState.originalroot,list);
         // add to frontier
         frontierStack.push(newState);
+        newState.printPreorder();
+        return list;
+
     }
 
     public BinaryTree copyTree(Node focusNode) {
-        System.out.println("inside copyTree method");
         BinaryTree bt = new BinaryTree();
         bt.originalroot = preOrderCopy(focusNode);
         return bt;
     }
 
     private Node preOrderCopy(Node focusNode) {
-        System.out.println("inside preOrderCopy method");
         if (focusNode == null) {
             // base case
             return null;
         }
-        Node copy = new Node(focusNode.value);
+        Node copy = new Node(focusNode.value,focusNode.id);
         copy.left = preOrderCopy(focusNode.left);
         copy.right = preOrderCopy(focusNode.right);
         return copy;

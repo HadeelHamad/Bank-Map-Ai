@@ -9,6 +9,7 @@ public class Main {
         String[] floorArray = FileReader.fromFileToArray(fileName);
 
         BinaryTree initaialState = new BinaryTree(floorArray);
+        initaialState.printPreorder();
         DFSwithStack search = new DFSwithStack();
         BinaryTree goal = search.search(initaialState);
 
