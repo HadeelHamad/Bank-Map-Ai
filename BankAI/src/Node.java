@@ -1,11 +1,13 @@
 public class Node {
-    char value;
+    char value;// either '0','V', or 'C'
     Node left, right, parent;
-int id ;
-    public Node(char val,int num) {
+    int id;// node identifier
+    // --------------------------------------------------------------------------------------------------------------------
+
+    public Node(char val, int num) {
         value = val;
         left = right = null;
-id = num;
+        id = num;
     }
-    
+    // --------------------------------------------------------------------------------------------------------------------
 }
