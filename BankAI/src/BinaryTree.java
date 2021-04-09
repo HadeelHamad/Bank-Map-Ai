@@ -24,13 +24,6 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // Second consructor (used only for the initail state)
-    // BinaryTree(String[] floorArray) {
-    // // originalroot = fromArrayToBinaryTree(floorArray, null, 0);
-    // viewsAndZerosRefrences = new ArrayList<Integer>();
-    // }
-
-    // --------------------------------------------------------------------------------------------------------------------
     // Third consructor (used only for the initail state)
     BinaryTree(Character[] floorArray) {
         originalroot = fromArrayToBinaryTree(floorArray);
@@ -38,36 +31,23 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // recursive method to print tree nodes in preorder
-    private void printTreePreorderRecursive(Node node) {
+    // recursive method to print tree nodes in Postorder
+    private void printTreePostorderRecursive(Node node) {
         if (node == null)
             return;
-        // then print the value of node first then print its children values
+        // print the value of node children then print its value .
+        printTreePostorderRecursive(node.left);
+        printTreePostorderRecursive(node.right);
         System.out.print(node.value);
-        printTreePreorderRecursive(node.left);
-        printTreePreorderRecursive(node.right);
+
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    public void printTreePreorder() {
-        printTreePreorderRecursive(originalroot);
+    public void printTreePostorder() {
+        printTreePostorderRecursive(originalroot);
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // public Node fromArrayToBinaryTree(String[] arr, Node root, int i) {
-    // // Base case for recursion
-    // if (i < arr.length && !arr[i].equals("null")) {
-    // Node temp = new Node(arr[i].charAt(0), idCounter++);
-    // root = temp;
-    // // find parent of this node
-    // root.parent = findMyParentNode(originalroot, root);
-    // // insert left child
-    // root.left = fromArrayToBinaryTree(arr, root.left, 2 * i + 1);
-    // // insert right child
-    // root.right = fromArrayToBinaryTree(arr, root.right, 2 * i + 2);
-    // }
-    // return root;
-    // }
 
     // Convert from array to tree representation, returns the root of the tree
     public Node fromArrayToBinaryTree(Character[] array) {
@@ -77,36 +57,41 @@ public class BinaryTree {
         }
 
         Queue<Node> treeNodeQueue = new LinkedList<>();// Create Queue of nodes
-        Queue<Character> charQueue = new LinkedList<>();// Create Queue of integer
-        // loop to insert the element of the in the integerQueue
-        for (int i = 1; i < array.length; i++) {
-            charQueue.offer(array[i]);
-        }
-        Node treeNode;
+
+        // prepare the root of tree
+        Node root;
         if (array[0] == '0')
-            treeNode = new Node('0', 0);
+            root = new Node('0', 0);
+
         else
-            return null;
-        treeNodeQueue.offer(treeNode);// insert into the treeNode
-        int i = 1;
-        while (!charQueue.isEmpty()) {
-            // if the queue is empty the value will be assigned as null otherwise it will
-            // take the first element in the queue
-            Character leftVal = charQueue.isEmpty() ? null : charQueue.poll();
-            Character rightVal = charQueue.isEmpty() ? null : charQueue.poll();
+            return null; // empty tree
+
+        treeNodeQueue.offer(root);// insert into the treeNode
+
+        int id = 1;
+        for (int j = 1; j < array.length; j++) {
+
             Node current = treeNodeQueue.poll();
-            if (leftVal != null) {// if the left node is not null
-                Node left = new Node('0', i++);
+            if (array[j] != null) {// if the left node is not null
+                Node left = new Node('0', id++);
                 current.left = left;
+                left.parent = current;
                 treeNodeQueue.offer(left);
             }
-            if (rightVal != null) {// if the right node is not null
-                Node right = new Node('0', i++);
-                current.right = right;
-                treeNodeQueue.offer(right);
-            }
+            j++;
+            if (j < array.length) {
+                if (array[j] != null) {// if the right node is not null
+                    Node right = new Node('0', id++);
+                    current.right = right;
+                    right.parent = current;
+                    treeNodeQueue.offer(right);
+                }
+            } else
+                break;
+
         }
-        return treeNode;
+
+        return root;
     }
 
     // --------------------------------------------------------------------------------------------------------------------

@@ -17,29 +17,28 @@ public class Main {
         BinaryTree initaialState = new BinaryTree(floorCharArray);
         TreeVisualizer.printNode(initaialState.originalroot);
 
-        // // Creating the object of the search strategy "DFS"
-        // DFSwithStack search = new DFSwithStack();
-        // // Run the DFS algorithim staring by the initial state
-        // BinaryTree goal = search.search(initaialState);
-        // //
+        // Creating the object of the search strategy "DFS"
+        DFSwithStack search = new DFSwithStack();
+        // Run the DFS algorithim staring by the initial state
+        BinaryTree goal = search.search(initaialState);
         // --------------------------------------------------------------------------------------------------------------------
-        // // if the goal was found
-        // if (goal != null) {
-        // System.out.println("Preorder traversal of binary tree is ");
-        // goal.printTreePreorder();
-        // /*
-        // * printing the output (number of cameras required to monitor the floor +
-        // * performance of the search strategy)
-        // */
-        // goal.printOutput();
-        // // Printing the tree representation of the map floor after placing the
-        // // surveillance cameras
-        // TreeVisualizer.printNode(goal.originalroot);
-        // } else {
-        // System.out.println("No goal was found !");
+        // if the goal was found
+        if (goal != null) {
+            System.out.println("Preorder traversal of binary tree is ");
+            goal.printTreePostorder();
+            /*
+             * printing the output (number of cameras required to monitor the floor +
+             * performance of the search strategy)
+             */
+            goal.printOutput();
+            // Printing the tree representation of the map floor after placing the
+            // surveillance cameras
+            TreeVisualizer.printNode(goal.originalroot);
+        } else {
+            System.out.println("No goal was found !");
 
-        // }
-        // s.close();
+        }
+        s.close();
     }
 
 }
