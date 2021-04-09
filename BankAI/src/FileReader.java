@@ -74,9 +74,8 @@ public class FileReader {
     return floor;
   }
 
-
   // --------------------------------------------------------------------------------------------------------------------
-  
+
   public static Character[] fromFileToCharacterArray(String fileName) {
     String[] floorString = null;
     try {
@@ -95,16 +94,15 @@ public class FileReader {
       e.printStackTrace();
     }
     Character[] floor = new Character[floorString.length];
-for(int i = 0; i< floor.length;i++){
-    try{
-     
-  floor[i] = floorString[i].charAt(0);
-      
-    }catch(NullPointerException e){
-      floor[i]=null;
+    for (int i = 0; i < floor.length; i++) {
+
+      if (floorString[i].equals("0")) {
+        floor[i] = floorString[i].charAt(0);
+      } else {
+        floor[i] = null;
+      }
 
     }
-  }
     return floor;
   }
 

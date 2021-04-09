@@ -26,8 +26,8 @@ public class BinaryTree {
     // --------------------------------------------------------------------------------------------------------------------
     // Second consructor (used only for the initail state)
     // BinaryTree(String[] floorArray) {
-    //    // originalroot = fromArrayToBinaryTree(floorArray, null, 0);
-    //     viewsAndZerosRefrences = new ArrayList<Integer>();
+    // // originalroot = fromArrayToBinaryTree(floorArray, null, 0);
+    // viewsAndZerosRefrences = new ArrayList<Integer>();
     // }
 
     // --------------------------------------------------------------------------------------------------------------------
@@ -75,6 +75,7 @@ public class BinaryTree {
         if (array == null || array.length == 0) {
             return null;
         }
+
         Queue<Node> treeNodeQueue = new LinkedList<>();// Create Queue of nodes
         Queue<Character> charQueue = new LinkedList<>();// Create Queue of integer
         // loop to insert the element of the in the integerQueue
@@ -82,7 +83,7 @@ public class BinaryTree {
             charQueue.offer(array[i]);
         }
         Node treeNode;
-        if (array[0] == 0)
+        if (array[0] == '0')
             treeNode = new Node('0', 0);
         else
             return null;
