@@ -15,7 +15,7 @@ public class Main {
         // Creating new binary tree object representing the initial state => all
         // elements are '0'
         BinaryTree initaialState = new BinaryTree(floorCharArray);
-        TreeVisualizer.printNode(initaialState.originalroot);
+       // TreeVisualizer.printNode(initaialState.originalroot);
 
         // Creating the object of the search strategy "DFS"
         DFSwithStack search = new DFSwithStack();
@@ -24,13 +24,13 @@ public class Main {
         // --------------------------------------------------------------------------------------------------------------------
         // if the goal was found
         if (goal != null) {
-            System.out.println("Preorder traversal of binary tree is ");
+            System.out.println("Postorder traversal of binary tree is ");
             goal.printTreePostorder();
             /*
              * printing the output (number of cameras required to monitor the floor +
              * performance of the search strategy)
              */
-            goal.printOutput();
+            search.printOutput(goal);
             // Printing the tree representation of the map floor after placing the
             // surveillance cameras
             TreeVisualizer.printNode(goal.originalroot);

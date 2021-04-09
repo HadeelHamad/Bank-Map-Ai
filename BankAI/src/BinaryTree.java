@@ -11,7 +11,7 @@ public class BinaryTree {
      * List contains the IDs of the nodes containing 'V' or '0' indicating that they
      * are qualified to be occupied by a camera
      */
-    List<Integer> viewsAndZerosRefrences;
+    List<Integer> zerosRefrences;
     // idCounter is used while creating the tree node (ensuring that all nodes have
     // unique ids)
     int idCounter = 0;
@@ -20,14 +20,14 @@ public class BinaryTree {
     // First consructor (used for creating all states except the initail state)
     BinaryTree() {
         originalroot = null;
-        viewsAndZerosRefrences = new ArrayList<Integer>();
+        zerosRefrences = new ArrayList<Integer>();
     }
 
     // --------------------------------------------------------------------------------------------------------------------
     // Third consructor (used only for the initail state)
     BinaryTree(Character[] floorArray) {
         originalroot = fromArrayToBinaryTree(floorArray);
-        viewsAndZerosRefrences = new ArrayList<Integer>();
+        zerosRefrences = new ArrayList<Integer>();
     }
 
     // --------------------------------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ public class BinaryTree {
             return null;
         }
 
-        Queue<Node> treeNodeQueue = new LinkedList<>();// Create Queue of nodes
+        Queue<Node> treeQueue = new LinkedList<>();// Create Queue of nodes
 
         // prepare the root of tree
         Node root;
@@ -66,25 +66,25 @@ public class BinaryTree {
         else
             return null; // empty tree
 
-        treeNodeQueue.offer(root);// insert into the treeNode
+        treeQueue.offer(root);// insert into the treeNode
 
         int id = 1;
         for (int j = 1; j < array.length; j++) {
 
-            Node current = treeNodeQueue.poll();
+            Node current = treeQueue.poll();
             if (array[j] != null) {// if the left node is not null
                 Node left = new Node('0', id++);
                 current.left = left;
-                left.parent = current;
-                treeNodeQueue.offer(left);
+               // left.parent = current;
+                treeQueue.offer(left);
             }
             j++;
             if (j < array.length) {
                 if (array[j] != null) {// if the right node is not null
                     Node right = new Node('0', id++);
                     current.right = right;
-                    right.parent = current;
-                    treeNodeQueue.offer(right);
+                   // right.parent = current;
+                    treeQueue.offer(right);
                 }
             } else
                 break;
@@ -95,7 +95,7 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // assigning a camera in one of the qualified nodes(their ids are in the given
+   // assigning a camera in one of the qualified nodes(their ids are in the given
     // list)
     // note: this method will return the updated list (after removing the id of the
     // node which was occupied by a camera)
@@ -114,16 +114,16 @@ public class BinaryTree {
             refrence.value = 'C';
             // IMPORTANT >> remove the id from the list
             list.remove(Integer.valueOf(refrence.id));
-            // assign views ('V') indicating that the camera that is recently added can
-            // monitior these 'V' nodes
+            // assign views (‘V’) indicating that the camera that is recently added can
+            // monitior these ‘V’ nodes
             if (refrence.left != null && refrence.left.value != 'C')
                 // camera can monitor the left child if it is exist
                 refrence.left.value = 'V';
             if (refrence.right != null && refrence.right.value != 'C')
                 // camera can monitor the right child if it is exist
-
                 refrence.right.value = 'V';
 
+                refrence.parent = findMyParentNode(originalroot, refrence);
             if (refrence.parent != null && refrence.parent.value != 'C')
                 // camera can monitor the parent if it is exist (parent is null only when the
                 // current node is the root)
@@ -138,20 +138,19 @@ public class BinaryTree {
     // starting from the given node
     public int countPossibleChildren(Node node) {
         int possibleChildrenCounter = 0;
-        if (node.value == '0' || node.value == 'V')
+        if (node.value == '0')
             possibleChildrenCounter++;
         if (node.left != null)
             possibleChildrenCounter += countPossibleChildren(node.left);
         if (node.right != null)
             possibleChildrenCounter += countPossibleChildren(node.right);
         return possibleChildrenCounter;
-
     }
 
     // --------------------------------------------------------------------------------------------------------------------
     // Given a node, this method counts the number of nodes containing 'C' starting
     // from the given node
-    private int countCameras(Node node) {
+    public int countCameras(Node node) {
         int num = 0;
         if (node.value == 'C')
             num++;
@@ -178,17 +177,17 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // update the "viewsAndZerosRefrences" list of nodes IDs that are qualified be
+    // update the "zerosRefrences" list of nodes IDs that are qualified be
     // occupied by a camera)
-    public void findViewsAndZeroes(Node node) {
+    public void findZeroes(Node node) {
         if (node == null)
             return;
-        if (node.value == '0' || node.value == 'V')
-            // the node can be occupied by a camera if it is free '0' or viewed
-            viewsAndZerosRefrences.add(node.id);
-        findViewsAndZeroes(node.left);
+        if (node.value == '0')
+            // the node can be occupied by a camera if it is free '0'
+            zerosRefrences.add(node.id);
+        findZeroes(node.left);
 
-        findViewsAndZeroes(node.right);
+        findZeroes(node.right);
     }
 
     // --------------------------------------------------------------------------------------------------------------------
@@ -212,10 +211,5 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    public void printOutput() {
-        System.out.println(
-                "\n-According to DFS strategy the number of surveillance camerasƒ needed to monitor the whole floor is "
-                        + countCameras(originalroot));
-    }
-    // --------------------------------------------------------------------------------------------------------------------
+   
 }
