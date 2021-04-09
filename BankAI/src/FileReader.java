@@ -74,4 +74,38 @@ public class FileReader {
     return floor;
   }
 
+
+  // --------------------------------------------------------------------------------------------------------------------
+  
+  public static Character[] fromFileToCharacterArray(String fileName) {
+    String[] floorString = null;
+    try {
+      File file = new File("src/" + fileName + ".txt");
+      System.out.println(file.getAbsolutePath());
+      Scanner scanner = new Scanner(file);
+      if (scanner.hasNextLine()) {
+        String str = scanner.nextLine();
+        String floorMapString = str.substring(1, str.length() - 1);
+        floorString = floorMapString.split(",");
+      }
+      scanner.close();
+
+    } catch (FileNotFoundException e) {
+      System.out.println("There is an error while reading the " + fileName + " file !");
+      e.printStackTrace();
+    }
+    Character[] floor = new Character[floorString.length];
+for(int i = 0; i< floor.length;i++){
+    try{
+     
+  floor[i] = floorString[i].charAt(0);
+      
+    }catch(NullPointerException e){
+      floor[i]=null;
+
+    }
+  }
+    return floor;
+  }
+
 }

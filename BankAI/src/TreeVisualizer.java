@@ -7,6 +7,7 @@ class TreeVisualizer {
     // This class is used to visualize tree elements in java
     public static <T extends Comparable<?>> void printNode(Node root) {
         int maxLevel = TreeVisualizer.maxLevel(root);
+        System.out.println("max level is "+maxLevel);
         printNodeInternal((List<Node>) Collections.singletonList(root), 1, maxLevel);
     }
 

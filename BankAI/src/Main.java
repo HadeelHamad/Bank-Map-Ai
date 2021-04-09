@@ -9,11 +9,13 @@ public class Main {
         String fileName = s.nextLine();
         // Read from the specified file, then return an array of strings representing
         // the tree elements
-        String[] floorArray = FileReader.fromFileToArray(fileName);
+       //--- String[] floorArray = FileReader.fromFileToArray(fileName);
+        Character[] floorCharArray = FileReader.fromFileToCharacterArray(fileName);
         // --------------------------------------------------------------------------------------------------------------------
         // Creating new binary tree object representing the initial state => all
         // elements are '0'
-        BinaryTree initaialState = new BinaryTree(floorArray);
+        BinaryTree initaialState = new BinaryTree(floorCharArray);
+       
         // Creating the object of the search strategy "DFS"
         DFSwithStack search = new DFSwithStack();
         // Run the DFS algorithim staring by the initial state
