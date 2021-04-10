@@ -8,13 +8,10 @@ public class BinaryTree {
     // Root of Binary Tree
     Node originalroot;
     /*
-     * List contains the IDs of the nodes containing 'V' or '0' indicating that they
-     * are qualified to be occupied by a camera
+     * List contains the IDs of the nodes containing '0' indicating that they are
+     * qualified to be occupied by a camera
      */
     List<Integer> zerosRefrences;
-    // idCounter is used while creating the tree node (ensuring that all nodes have
-    // unique ids)
-    int idCounter = 0;
 
     // --------------------------------------------------------------------------------------------------------------------
     // First consructor (used for creating all states except the initail state)
@@ -24,14 +21,14 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // Third consructor (used only for the initail state)
+    // Second consructor (used only for the initail state)
     BinaryTree(Character[] floorArray) {
         originalroot = fromArrayToBinaryTree(floorArray);
         zerosRefrences = new ArrayList<Integer>();
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // recursive method to print tree nodes in Postorder
+    // recursive method to print tree nodes in postorder
     private void printTreePostorderRecursive(Node node) {
         if (node == null)
             return;
@@ -48,54 +45,52 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-
     // Convert from array to tree representation, returns the root of the tree
     public Node fromArrayToBinaryTree(Character[] array) {
         // null or empty array => return null
         if (array == null || array.length == 0) {
             return null;
         }
-
-        Queue<Node> treeQueue = new LinkedList<>();// Create Queue of nodes
+        // Create a queue of tree nodes
+        Queue<Node> treeQueue = new LinkedList<>();
 
         // prepare the root of tree
         Node root;
         if (array[0] == '0')
-            root = new Node('0', 0);
+            root = new Node('0', 0);// the root has 0 id
 
         else
             return null; // empty tree
-
-        treeQueue.offer(root);// insert into the treeNode
-
-        int id = 1;
+        // insert the root into the treeQueue
+        treeQueue.offer(root);
+        // idCounter is used while creating the tree node (ensuring that all nodes have
+        // unique ids)
+        int idCounter = 1; // starts with 1, because the root has 0 id
         for (int j = 1; j < array.length; j++) {
 
             Node current = treeQueue.poll();
             if (array[j] != null) {// if the left node is not null
-                Node left = new Node('0', id++);
+                Node left = new Node('0', idCounter++);
                 current.left = left;
-               // left.parent = current;
                 treeQueue.offer(left);
             }
-            j++;
+            j++;// the next index is the right child
             if (j < array.length) {
                 if (array[j] != null) {// if the right node is not null
-                    Node right = new Node('0', id++);
+                    Node right = new Node('0', idCounter++);
                     current.right = right;
-                   // right.parent = current;
                     treeQueue.offer(right);
                 }
             } else
-                break;
+                break;// end of array was reached
 
         }
 
-        return root;
+        return root;// return the root of the constructed tree
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-   // assigning a camera in one of the qualified nodes(their ids are in the given
+    // assigning a camera in one of the qualified nodes(their ids are in the given
     // list)
     // note: this method will return the updated list (after removing the id of the
     // node which was occupied by a camera)
@@ -123,7 +118,7 @@ public class BinaryTree {
                 // camera can monitor the right child if it is exist
                 refrence.right.value = 'V';
 
-                refrence.parent = findMyParentNode(originalroot, refrence);
+            refrence.parent = findMyParentNode(originalroot, refrence);
             if (refrence.parent != null && refrence.parent.value != 'C')
                 // camera can monitor the parent if it is exist (parent is null only when the
                 // current node is the root)
@@ -134,7 +129,8 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-    // Given a node, this method counts the number of nodes containing 'V' or '0'
+    // Given a node, this method counts the number of nodes containing '0' in the
+    // binary tree
     // starting from the given node
     public int countPossibleChildren(Node node) {
         int possibleChildrenCounter = 0;
@@ -149,6 +145,7 @@ public class BinaryTree {
 
     // --------------------------------------------------------------------------------------------------------------------
     // Given a node, this method counts the number of nodes containing 'C' starting
+    // in the binary tree
     // from the given node
     public int countCameras(Node node) {
         int num = 0;
@@ -211,5 +208,5 @@ public class BinaryTree {
     }
 
     // --------------------------------------------------------------------------------------------------------------------
-   
+
 }
