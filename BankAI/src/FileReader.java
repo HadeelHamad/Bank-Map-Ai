@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.regex.PatternSyntaxException;
 
 public class FileReader {
   // --------------------------------------------------------------------------------------------------------------------
@@ -68,8 +69,9 @@ public class FileReader {
       scanner.close();
 
     } catch (FileNotFoundException e) {
-      System.out.println("There is an error while reading the " + fileName + " file !");
-      e.printStackTrace();
+      System.out.println("The file " + fileName + " was not found !");
+    }catch(PatternSyntaxException e){
+      System.out.println("Please make sure that the " + fileName + " file is correctly written");
     }
     Character[] floor = new Character[floorString.length];
     for (int i = 0; i < floor.length; i++) {
