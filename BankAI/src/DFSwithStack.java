@@ -134,7 +134,7 @@ public class DFSwithStack {
     /*
      * Prints the output of the search process 1. Minimum number of cameras needed
      * to monitor the whole bank floor 2. Performance of the search 2.1 Time
-     * comlexity 2.1 Space comlexity
+     * comlexity 2.2 Space comlexity
      * 
      */
     public void printOutput(BinaryTree state) {

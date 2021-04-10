@@ -130,8 +130,7 @@ public class BinaryTree {
 
     // --------------------------------------------------------------------------------------------------------------------
     // Given a node, this method counts the number of nodes containing '0' in the
-    // binary tree
-    // starting from the given node
+    // binary tree starting from the given node
     public int countPossibleChildren(Node node) {
         int possibleChildrenCounter = 0;
         if (node.value == '0')
@@ -145,8 +144,7 @@ public class BinaryTree {
 
     // --------------------------------------------------------------------------------------------------------------------
     // Given a node, this method counts the number of nodes containing 'C' starting
-    // in the binary tree
-    // from the given node
+    // in the binary tree starting from the given node
     public int countCameras(Node node) {
         int num = 0;
         if (node.value == 'C')
