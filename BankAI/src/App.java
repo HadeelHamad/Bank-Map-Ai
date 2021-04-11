@@ -2,113 +2,82 @@
 import java.util.Scanner;
 
 public class App {
-    // ___________________________________ سكرت هذي الميثدز لانها ما استخدمت :)
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Please enter the file name ");
+        String fileName = s.nextLine();
+        char[][] grid = FileReader.readFile(fileName);
+        System.out.println("Coordinates of Cameras:");
+        traverseDiagonally(grid);
+        System.out.println("Bank's Map:");
+        printMatrix(grid);
+        s.close();
+    }
 
-    // static class Coordinate {
-    // int i, j;
-
-    // public Coordinate(int first, int second) {
-    // this.i = first;
-    // this.j = second;
-    // }
-    // }
-
-    // // A utility function to find min
-    // // of two integers
-    // static int min(int a, int b) {
-    // return (a < b) ? a : b;
-    // }
-
-    // // A utility function to find min
-    // // of three integers
-    // static int min(int a, int b, int c) {
-    // return min(min(a, b), c);
-    // }
-
-    // // A utility function to find max
-    // // of two integers
-    // static int max(int a, int b) {
-    // return (a > b) ? a : b;
-    // }
-    // ___________________________________
-
-    // The main function that prints given
-    // matrix in diagonal order
+    // assign cameras in diagonal order
     static void traverseDiagonally(char matrix[][]) {
+        // grid size
         int n = matrix.length;
-        // ___________________________________ من هنا بدت تعديلاتي
-        int row = 0, col = 0;
+        int row = 0, column = 0;
+        boolean row_increment = false;
 
-        // Boolean variable that will true if we
-        // need to increment 'row' value otherwise
-        // false- if increment 'col' value
-        boolean row_inc = false;
-
-        // Print matrix of lower half zig-zag pattern
         for (int len = 1; len <= n; ++len) {
             for (int i = 0; i < len; ++i) {
 
-                if (matrix[row][col] == '-') {
-                    matrix[row][col] = 'c';
-                    setDownViews(matrix, row + 1, col);
-                    setUpViews(matrix, row - 1, col);
-                    setLeftViews(matrix, row, col - 1);
-                    setRightViews(matrix, row, col + 1);
-                    setLeftUpViews(matrix, row - 1, col - 1);
-                    setLeftDownViews(matrix, row + 1, col - 1);
-                    setRightDownViews(matrix, row + 1, col + 1);
-                    setRightUpViews(matrix, row - 1, col + 1);
+                if (matrix[row][column] == '-') {
+                    matrix[row][column] = 'c';
+                    System.out.println("     " + (row+1) + " " + (1+column));
+                    // set views in both directions vertically, horizontally and diagonally
+                    setDownViews(matrix, row + 1, column);
+                    setUpViews(matrix, row - 1, column);
+                    setLeftViews(matrix, row, column - 1);
+                    setRightViews(matrix, row, column + 1);
+                    setLeftUpViews(matrix, row - 1, column - 1);
+                    setLeftDownViews(matrix, row + 1, column - 1);
+                    setRightDownViews(matrix, row + 1, column + 1);
+                    setRightUpViews(matrix, row - 1, column + 1);
                 }
 
                 if (i + 1 == len)
                     break;
-                // If row_increment value is true
-                // increment row and decrement col
-                // else decrement row and increment
-                // col
-                if (row_inc) {
+                if (row_increment) {
                     ++row;
-                    --col;
+                    --column;
                 } else {
                     --row;
-                    ++col;
+                    ++column;
                 }
             }
 
             if (len == n)
                 break;
 
-            // Update row or col valaue according
-            // to the last increment
-            if (row_inc) {
+            if (row_increment) {
 
                 ++row;
-                row_inc = false;
+                row_increment = false;
 
             } else {
 
-                ++col;
-                row_inc = true;
+                ++column;
+                row_increment = true;
 
             }
         }
 
-        // Update the indexes of row and col variable
         if (row == 0) {
-            if (col == n - 1)
+            if (column == n - 1)
                 ++row;
             else
-                ++col;
-            row_inc = true;
+                ++column;
+            row_increment = true;
         } else {
             if (row == n - 1)
-                ++col;
+                ++column;
             else
                 ++row;
-            row_inc = false;
+            row_increment = false;
         }
-
-        // Print the next half zig-zag pattern
         int MAX = n - 1;
         for (int len, diag = MAX; diag > 0; --diag) {
 
@@ -118,93 +87,53 @@ public class App {
                 len = diag;
 
             for (int i = 0; i < len; ++i) {
-                if (matrix[row][col] == '-') {
-                    matrix[row][col] = 'c';
-                    setDownViews(matrix, row + 1, col);
-                    setUpViews(matrix, row - 1, col);
-                    setLeftViews(matrix, row, col - 1);
-                    setRightViews(matrix, row, col + 1);
-                    setLeftUpViews(matrix, row - 1, col - 1);
-                    setLeftDownViews(matrix, row + 1, col - 1);
-                    setRightDownViews(matrix, row + 1, col + 1);
-                    setRightUpViews(matrix, row - 1, col + 1);
+                if (matrix[row][column] == '-') {
+                    matrix[row][column] = 'c';
+                    System.out.println("     " + (row+1) + " " + (1+column));
+                    // set views in both directions vertically, horizontally and diagonally
+                    setDownViews(matrix, row + 1, column);
+                    setUpViews(matrix, row - 1, column);
+                    setLeftViews(matrix, row, column - 1);
+                    setRightViews(matrix, row, column + 1);
+                    setLeftUpViews(matrix, row - 1, column - 1);
+                    setLeftDownViews(matrix, row + 1, column - 1);
+                    setRightDownViews(matrix, row + 1, column + 1);
+                    setRightUpViews(matrix, row - 1, column + 1);
                 }
                 if (i + 1 == len)
                     break;
 
-                // Update row or col value according
-                // to the last increment
-                if (row_inc) {
+                if (row_increment) {
                     ++row;
-                    --col;
+                    --column;
 
                 } else {
-                    ++col;
+                    ++column;
                     --row;
 
                 }
             }
-
-            // Update the indexes of row and col variable
-            if (row == 0 || col == n - 1) {
-                if (col == n - 1)
+            if (row == 0 || column == n - 1) {
+                if (column == n - 1)
                     ++row;
                 else
-                    ++col;
-
-                row_inc = true;
-
+                    ++column;
+                row_increment = true;
             }
 
-            else if (col == 0 || row == n - 1) {
+            else if (column == 0 || row == n - 1) {
                 if (row == n - 1)
-                    ++col;
+                    ++column;
                 else
                     ++row;
 
-                row_inc = false;
-
+                row_increment = false;
             }
-            // ___________________________________ انتهت تعديلاتي وشغلنا اللي قبل مقفل
-            // بكومنت
 
-            // // There will be ROW+COL-1 lines in the output
-            // for (int line = 1; line <= (n + n - 1); line++) {
-
-            // // Get column index of the first
-            // // element in this line of output.
-            // // The index is 0 for first ROW
-            // // lines and line - ROW for remaining lines
-            // int start_col = max(0, line - n);
-
-            // // Get count of elements in this line.
-            // // The count of elements is equal to
-            // // minimum of line number, COL-start_col and ROW
-            // int count = min(line, (n - start_col), n);
-
-            // // Print elements of this line
-            // for (int j = 0; j < count; j++) {
-            // int row = min(n, line) - j - 1;
-            // int col = start_col + j;
-
-            // if (matrix[row][col] == '-') {
-            // matrix[row][col] = 'c';
-            // setDownViews(matrix, row + 1, col);
-            // setUpViews(matrix, row - 1, col);
-            // setLeftViews(matrix, row, col - 1);
-            // setRightViews(matrix, row, col + 1);
-            // setLeftUpViews(matrix, row - 1, col - 1);
-            // setLeftDownViews(matrix, row + 1, col - 1);
-            // setRightDownViews(matrix, row + 1, col + 1);
-            // setRightUpViews(matrix, row - 1, col + 1);
-            // }
-            // }
-
-            // Print elements of next diagonal on next line
         }
     }
 
-    // Utility function to print a matrix
+    // prints the matrix values
     static void printMatrix(char matrix[][]) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++)
@@ -213,6 +142,7 @@ public class App {
         }
     }
 
+    // set views to the right down diagonal of an added camera
     static void setRightDownViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -222,6 +152,7 @@ public class App {
         setRightDownViews(grid, i + 1, j + 1);
     }
 
+    // set views to the right up diagonal of an added camera
     static void setRightUpViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -231,6 +162,7 @@ public class App {
         setRightUpViews(grid, i - 1, j + 1);
     }
 
+    // set views to the right side of an added camera
     static void setRightViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -240,6 +172,7 @@ public class App {
         setRightViews(grid, i, j + 1);
     }
 
+    // set views to the left up diagonal of an added camera
     static void setLeftUpViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -249,6 +182,7 @@ public class App {
         setLeftUpViews(grid, i - 1, j - 1);
     }
 
+    // set views to the left down diagonal of an added camera
     static void setLeftDownViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -258,6 +192,7 @@ public class App {
         setLeftDownViews(grid, i + 1, j - 1);
     }
 
+    // set views to the left side of an added camera
     static void setLeftViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -267,6 +202,7 @@ public class App {
         setLeftViews(grid, i, j - 1);
     }
 
+    // set views to the up side of an added camera
     static void setUpViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -276,6 +212,7 @@ public class App {
         setUpViews(grid, i - 1, j);
     }
 
+    // set views to the down side of an added camera
     static void setDownViews(char[][] grid, int i, int j) {
         if (i >= grid.length || j >= grid.length || i < 0 || j < 0)
             return;
@@ -305,14 +242,4 @@ public class App {
     // stack.push(new Coordinate(row + 1, col)); // go down
     // }
     // }
-
-    public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        System.out.println("please enter the file name ");
-        String fileName = s.nextLine();
-        char[][] grid = FileReader.readFile(fileName);
-        traverseDiagonally(grid);
-        printMatrix(grid);
-    }
-
 }
